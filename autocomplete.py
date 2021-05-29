@@ -52,12 +52,22 @@ class Autocompleter:
         return top_5_words
 
 
-if __name__ == "__main__":
-    file = open( 'unigram_freq.csv' , 'r' )
-    contents = file.read().split('\n')
+    @staticmethod
+    def read_file() -> list:
+        '''
+        Returns list from lines from a file that was read.
+        '''
+        file = open( 'unigram_freq.csv' , 'r' )
+        return file.read().split('\n')
+
+
+def start_completing():
+    '''
+    Runs the main program, returns words based on the input of the user.
+    '''
     search_trie = Trie()
     autocompleter = Autocompleter(search_trie)
-
+    contents = autocompleter.read_file()
     for index, element in enumerate(contents):
         try:
             one_word, freq = element.split(',')
@@ -65,3 +75,7 @@ if __name__ == "__main__":
             search_trie.add(one_word, int(freq))
         except ValueError:
             continue
+
+
+if __name__ == "__main__":
+    start_completing()
