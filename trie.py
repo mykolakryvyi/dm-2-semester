@@ -1,4 +1,6 @@
 class Trie:
+    words = []
+
     def __init__(self) -> None:
         self.children = {}
         self.end_of_word = False
@@ -33,6 +35,7 @@ class Trie:
     def traversal(self, item):
         lst_words = []
         if self.end_of_word:
+            Trie.words.append((item, self.weight))
             print(item, self.weight)
         for i in self.children:
             s = item + i
@@ -54,7 +57,14 @@ class Trie:
 
     def sorted_autocomplete(self, word):
         self.autocomplete(word)
-        return self.lst_of_words
+        Trie.words.sort(key = lambda x: x[1])
+        Trie.words.reverse()
+        needed_words = Trie.words[:5]
+        top_5_words = []
+        for word in needed_words:
+            top_5_words.append(word[0])
+        return top_5_words
+
 
 if __name__ == "__main__":
     file = open( 'unigram_freq.csv' , 'r' )
