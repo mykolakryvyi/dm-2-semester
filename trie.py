@@ -1,8 +1,11 @@
 class Trie:
+    words = []
+
     def __init__(self) -> None:
         self.children = {}
         self.end_of_word = False
         self.weight = -1
+        self.lst_of_words = []
 
     def add(self, item, weight) -> None:
         i = 0
@@ -30,8 +33,10 @@ class Trie:
             return False
     
     def traversal(self, item):
+        lst_words = []
         if self.end_of_word:
-            print (item)
+            Trie.words.append((item, self.weight))
+            print(item, self.weight)
         for i in self.children:
             s = item + i
             self.children[i].traversal(s)
@@ -50,36 +55,21 @@ class Trie:
         self.traversal(s)
         return 'END'
 
-if __name__ == "__main__":
-    list = [
-    'sin',
-    'singh',
-    'sign',
-    'sinus',
-    'sit',
-    'silly',
-    'side',
-    'son',
-    'soda',
-    'sauce',
-    'sand',
-    'soap',
-    'sar',
-    'solo',
-    'sour',
-    'sun',
-    'sure',
-    'an',
-    'ant',
-    'aunt',
-    'hell',
-    'hello',
-    'help',
-    'helps',
-    'hellish',
-    ]
-x = Trie()
-for i in list:
-    x.add(i, 143)
+    def sorted_autocomplete(self, word):
+        self.autocomplete(word)
+        return self.lst_of_words
 
-print(x.autocomplete('sa'))
+if __name__ == "__main__":
+    file = open( 'unigram_freq.csv' , 'r' )
+    contents = file.read().split('\n')
+    search_trie = Trie()
+    for i, elem in enumerate(contents):
+        try: 
+            word, freq = elem.split(',')
+            contents[i] = [word, int(freq)]
+            search_trie.add(word, int(freq))
+        except ValueError:
+            continue    
+
+    print(search_trie.sorted_autocomplete('hell'))
+    print(Trie.words)
