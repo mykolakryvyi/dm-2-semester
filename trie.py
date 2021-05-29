@@ -19,8 +19,36 @@ class Trie:
                 self.end_of_word = False
             i += 1
 
-    def triestr(self) -> str:
-        return self.children
+    def search(self, item):
+        if self.end_of_word and len(item) == 0:
+            return True
+        first = item[:1]  
+        str = item[1:]  
+        if first in self.children:
+            return self.children[first].search(str)
+        else:
+            return False
+    
+    def traversal(self, item):
+        if self.end_of_word:
+            print (item)
+        for i in self.children:
+            s = item + i
+            self.children[i].traversal(s)
+
+    def autocomplete(self, item):
+        i = 0
+        s = ''
+        while i < len(item):
+            k = item[i]
+            s += k
+            if k in self.children:
+                self = self.children[k]
+            else:
+                return 'NOT FOUND'
+            i += 1
+        self.traversal(s)
+        return 'END'
 
 if __name__ == "__main__":
     list = [
@@ -53,3 +81,5 @@ if __name__ == "__main__":
 x = Trie()
 for i in list:
     x.add(i, 143)
+
+print(x.autocomplete('sa'))
