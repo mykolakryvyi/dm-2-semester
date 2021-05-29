@@ -35,10 +35,7 @@ class Trie:
     def traversal(self, item):
         lst_words = []
         if self.end_of_word:
-<<<<<<< HEAD
             Trie.words.append((item, self.weight))
-=======
->>>>>>> 98e3a5c35c436068cb33af58ef81bd314debcfd8
             print(item, self.weight)
         for i in self.children:
             s = item + i
@@ -75,7 +72,4 @@ if __name__ == "__main__":
             continue    
 
     print(search_trie.sorted_autocomplete('hell'))
-<<<<<<< HEAD
     print(Trie.words)
-=======
->>>>>>> 98e3a5c35c436068cb33af58ef81bd314debcfd8
