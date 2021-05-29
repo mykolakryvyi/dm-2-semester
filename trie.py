@@ -78,4 +78,9 @@ if __name__ == "__main__":
         except ValueError:
             continue    
 
+<<<<<<< HEAD
     print(search_trie.sorted_autocomplete('hell'))
+=======
+    print(search_trie.sorted_autocomplete('hell'))
+    print(Trie.words)
+>>>>>>> 4a8c80f47d86b0ac84d4b1fb080abac850b1f5e2
