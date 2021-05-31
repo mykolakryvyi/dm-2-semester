@@ -43,8 +43,9 @@ class Autocompleter:
         Returns list with top 5 words that have the biggest weight.
         '''
         self.autocomplete(word)
-        Trie.words.sort(key = lambda x: x[1])
-        Trie.words.reverse()
+        trie = Trie()
+        trie.words.sort(key = lambda x: x[1])
+        trie.words.reverse()
         needed_words = Trie.words[:5]
         top_5_words = []
 
@@ -59,8 +60,9 @@ class Autocompleter:
         '''
         Returns list from lines from a file that was read.
         '''
-        file = open( 'unigram_freq.csv' , 'r' )
-        return file.read().split('\n')
+        with open('unigram_freq.csv' , 'r') as file:
+            lines = file.read().split('\n')
+        return lines
 
 
 def start_completing():

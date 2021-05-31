@@ -2,6 +2,7 @@
 Module for plotting and running a program.
 '''
 import requests
+from trie import Trie
 from flask import Flask, render_template, request
 from autocomplete import Autocompleter, start_completing
 
@@ -28,6 +29,7 @@ def index():
         trie = start_completing()
         words = Autocompleter(trie).sorted_autocomplete(msg)
         data = plot_ngram(words)
+        Trie.words = []
 
     return render_template('index.html', data=data, words=words)
 
