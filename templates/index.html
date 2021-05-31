@@ -12,7 +12,6 @@
     <title>Document</title>
 </head>
 <body>
-    hello city!
     <div class="container">
         <div class="row">
           <div class="col-sm">
@@ -24,16 +23,22 @@
             <div class = small-heading2>
                 5 the most frequent words that have the same beginning
             </div>
+            {%if words%}
             <div class="card" style="width: 18rem;">
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item">1st word to display</li>
-                  <li class="list-group-item">2nd word to display</li>
-                  <li class="list-group-item">3rd word to display</li>
-                  <li class="list-group-item">4th word to display</li>
-                  <li class="list-group-item">5th word to display</li>
+                  <li class="list-group-item">{{words[0]}}</li>
+                  <li class="list-group-item">{{words[1]}}</li>
+                  <li class="list-group-item">{{words[2]}}</li>
+                  <li class="list-group-item">{{words[3]}}</li>
+                  <li class="list-group-item">{{words[4]}}</li>
                 </ul>
             </div>
+            {%endif%}
+
+            {%if data%}
             <iframe src="{{data}}" frameborder="0"></iframe>
+            {%endif%}
+    
           </div>
           <div class="col-sm">
             <p class = "heading1">Full search engine</p>
