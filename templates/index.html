@@ -26,11 +26,11 @@
             {%if words%}
             <div class="card" style="width: 18rem;">
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item">{{words[0]}}</li>
-                  <li class="list-group-item">{{words[1]}}</li>
-                  <li class="list-group-item">{{words[2]}}</li>
-                  <li class="list-group-item">{{words[3]}}</li>
-                  <li class="list-group-item">{{words[4]}}</li>
+                  {%if words[0]%}<li class="list-group-item">{{words[0]}}</li>{%endif%}
+                  {%if words[1]%}<li class="list-group-item">{{words[1]}}</li>{%endif%}
+                  {%if words[2]%}<li class="list-group-item">{{words[2]}}</li>{%endif%}
+                  {%if words[3]%}<li class="list-group-item">{{words[3]}}</li>{%endif%}
+                  {%if words[4]%}<li class="list-group-item">{{words[4]}}</li>{%endif%}
                 </ul>
             </div>
             {%endif%}
