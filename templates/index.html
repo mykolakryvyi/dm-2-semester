@@ -1,78 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.gstatic.com"> 
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,200&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">    
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,200&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+      crossorigin="anonymous"
+    />
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <div class="row">
-          <div class="col-sm">
-            <form method="POST">
-                <p class = "heading1">Autocomplete service</p>
-                <p class = "small-heading1">Start typing the word in the form below...</p>
-                <input type="text" name="msg">
-            </form>
-            <div class = small-heading2>
-                5 the most frequent words that have the same beginning
-            </div>
-            {%if words%}
-            <div class="card" style="width: 18rem;">
-                <ul class="list-group list-group-flush">
-                  {%if words[0]%}<li class="list-group-item">{{words[0]}}</li>{%endif%}
-                  {%if words[1]%}<li class="list-group-item">{{words[1]}}</li>{%endif%}
-                  {%if words[2]%}<li class="list-group-item">{{words[2]}}</li>{%endif%}
-                  {%if words[3]%}<li class="list-group-item">{{words[3]}}</li>{%endif%}
-                  {%if words[4]%}<li class="list-group-item">{{words[4]}}</li>{%endif%}
-                </ul>
-            </div>
-            {%endif%}
-
-            {%if data%}
-            <iframe src="{{data}}" frameborder="0" width="100%" height="40%"></iframe>
-            {%endif%}
-    
+      <div class="row">
+        <div class="col-sm">
+          <form method="POST">
+            <p class="heading1">Autocomplete service</p>
+            <p class="small-heading1">
+              Start typing the word in the form below...
+            </p>
+            <input type="text" name="word" />
+          </form>
+          <div class="small-heading2">
+            5 the most frequent words that have the same beginning
           </div>
-          <div class="col-sm">
-            <p class = "heading1">Full search engine</p>
+          {%if words%}
+          <div class="card" style="width: 18rem">
+            <ul class="list-group list-group-flush">
+              {%if words[0]%}
+              <li class="list-group-item">{{words[0]}}</li>
+              {%endif%} {%if words[1]%}
+              <li class="list-group-item">{{words[1]}}</li>
+              {%endif%} {%if words[2]%}
+              <li class="list-group-item">{{words[2]}}</li>
+              {%endif%} {%if words[3]%}
+              <li class="list-group-item">{{words[3]}}</li>
+              {%endif%} {%if words[4]%}
+              <li class="list-group-item">{{words[4]}}</li>
+              {%endif%}
+            </ul>
           </div>
+          {%endif%} {%if data%}
+          <iframe
+            src="{{data}}"
+            frameborder="0"
+            width="100%"
+            height="40%"
+          ></iframe>
+          {%endif%}
         </div>
+        <div class="col-sm">
+          <form method="POST" enctype="multipart/form-data">
+            <p class="heading1">Full search engine</p>
+            <div style="display: flex; justify-content: space-between">
+              <div>
+                <p class="small-heading1" style="margin-left: 10px">
+                  Type in the text in the form below...
+                </p>
+                <textarea
+                  class="fullsearch_textarea"
+                  type="text"
+                  rows="5"
+                  name="text"
+                ></textarea>
+              </div>
+              <div>
+                <p class="small-heading1">OR upload a file</p>
+                <input
+                  type="file"
+                  id="textfile"
+                  name="textfile"
+                  accept=".txt"
+                />
+              </div>
+            </div>
+            <p class="small-heading1" style="margin-top: 50px">
+              Enter a pattern to search for.
+            </p>
+            <input type="text" name="pattern" required />
+            <button type="submit">Search</button>
+          </form>
+          <div class="small-heading2">Indices of pattern matches</div>
+          {%if text_positions%} {%if pattern%}
+          <div class="card" style="width: 18rem">
+            <ul class="list-group list-group-flush">
+              {% for each in text_positions %}
+              <li class="list-group-item">{{ each }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+          {%endif%} {%endif%}
+        </div>
+      </div>
     </div>
     <style>
-        .heading1{
-            font-family: 'Montserrat', sans-serif;
-            font-size: 2.4rem;
-            margin-top: 1%;
-            margin-bottom: 1%;
-        }
+      .heading1 {
+        font-family: "Montserrat", sans-serif;
+        font-size: 2.4rem;
+        margin-top: 1%;
+        margin-bottom: 1%;
+      }
 
-        .small-heading1{
-            font-family: 'Montserrat', sans-serif;
-        }
+      .small-heading1 {
+        font-family: "Montserrat", sans-serif;
+      }
 
-        .small-heading2{
-            font-family: 'Montserrat', sans-serif;
-            font-weight: bold;
-            margin-top: 2%;
-            margin-bottom: 2%;
-            width: 60%;
-        }
+      .small-heading2 {
+        font-family: "Montserrat", sans-serif;
+        font-weight: bold;
+        margin-top: 2%;
+        margin-bottom: 2%;
+        width: 60%;
+      }
 
-        .headingtop{
-            font-family: 'Montserrat', sans-serif;
-            font-size: 2.4rem;
-            margin-top: 1%;
-            margin-bottom: 1%;
-            font-weight: bolder;
-            text-align: center;
-        }
+      .headingtop {
+        font-family: "Montserrat", sans-serif;
+        font-size: 2.4rem;
+        margin-top: 1%;
+        margin-bottom: 1%;
+        font-weight: bolder;
+        text-align: center;
+      }
+
+      .fullsearch_textarea {
+        width: 100%;
+      }
     </style>
-</body>
+  </body>
 </html>
