@@ -44,6 +44,10 @@ class SuffixTree:
 
     def __init__(self, data):
         """Initiate the tree."""
+        global suffixIndex, leafEnd
+        suffixIndex = 0
+        leafEnd = -1
+
         self._string = data
         self.lastNewNode = None
         self.activeNode = None
@@ -88,8 +92,6 @@ class SuffixTree:
         node.start = start
         node.end = end
         return node
-    
-    
 
     def extend_suffix_tree(self, pos):
         global leafEnd
@@ -112,7 +114,8 @@ class SuffixTree:
             #  activeEdge from activeNode
             if (self.activeNode.children.get(self._string[self.activeEdge]) is None):
                 # Extension Rule 2 (A new leaf edge gets created)
-                self.activeNode.children[self._string[self.activeEdge]] = self.new_node(pos, leaf=True)
+                self.activeNode.children[self._string[self.activeEdge]] = self.new_node(
+                    pos, leaf=True)
                 """A new leaf edge is created in above line starting
                  from  an existng node (the current activeNode), and
                  if there is any internal node waiting for it's suffix
@@ -128,7 +131,8 @@ class SuffixTree:
             else:
                 #  Get the next node at the end of edge starting
                 #  with activeEdge
-                _next = self.activeNode.children.get(self._string[self.activeEdge])
+                _next = self.activeNode.children.get(
+                    self._string[self.activeEdge])
                 if self.walk_down(_next):  # Do walkdown
                     # Start from _next node (the new activeNode)
                     continue
@@ -158,7 +162,8 @@ class SuffixTree:
                 split = self.new_node(_next.start, self.splitEnd)
                 self.activeNode.children[self._string[self.activeEdge]] = split
                 # New leaf coming out of new internal node
-                split.children[self._string[pos]] = self.new_node(pos, leaf=True)
+                split.children[self._string[pos]
+                               ] = self.new_node(pos, leaf=True)
                 _next.start += self.activeLength
                 split.children[self._string[_next.start]] = _next
                 """We got a new internal node here. If there is any
@@ -198,7 +203,6 @@ class SuffixTree:
         self.activeNode = self.root  # First activeNode will be root
         for i in range(self.size):
             self.extend_suffix_tree(i)
-
 
 
 if __name__ == "__main__":
