@@ -28,7 +28,7 @@ class Node:
             self.suffix_index = -1
         self.start = None
         self.end = None
-        self.suffixLink = None
+        self.suffix_link = None
 
     def __eq__(self, node):
         return self.start == node.start and self.end == node.end and self.suffix_index == node.suffix_index
@@ -60,7 +60,7 @@ class SuffixTree:
         leafEnd = -1
 
         self._string = data
-        self.lastNewNode = None
+        self.last_new_node = None
         self.active_node = None
         # active_edge is represeted as input string character
         # index (not the character itself)
@@ -74,7 +74,8 @@ class SuffixTree:
         self.size = -1  # Length of input string
         self.root = None
 
-    def edge_length(self, node):
+    @staticmethod
+    def edge_length(node):
         '''
         Returns the length of the edge.
         '''
@@ -100,13 +101,13 @@ class SuffixTree:
     def new_node(self, start, end=None, leaf=False):
         '''
         Adds new node.
-        For root node, suffixLink will be set to NULL
-        For internal nodes, suffixLink will be set to root
+        For root node, suffix_link will be set to NULL
+        For internal nodes, suffix_link will be set to root
         by default in  current extension and may change in
         next extension.
         '''
         node = Node(leaf)
-        node.suffixLink = self.root
+        node.suffix_link = self.root
         node.start = start
         node.end = end
         return node
@@ -118,7 +119,7 @@ class SuffixTree:
         global leafEnd
         leafEnd = pos
         self.remain_suff_count += 1
-        self.lastNewNode = None
+        self.last_new_node = None
 
         while self.remain_suff_count > 0:
             if self.active_len == 0:
@@ -128,9 +129,9 @@ class SuffixTree:
                 self.active_node.children[self._string[self.active_edge]] = self.new_node(
                     pos, leaf=True)
 
-                if self.lastNewNode is not None:
-                    self.lastNewNode.suffixLink = self.active_node
-                    self.lastNewNode = None
+                if self.last_new_node is not None:
+                    self.last_new_node.suffix_link = self.active_node
+                    self.last_new_node = None
 
             else:
                 _next = self.active_node.children.get(
@@ -140,9 +141,9 @@ class SuffixTree:
                     continue
 
                 if self._string[_next.start + self.active_len] == self._string[pos]:
-                    if((self.lastNewNode is not None) and (self.active_node != self.root)):
-                        self.lastNewNode.suffixLink = self.active_node
-                        self.lastNewNode = None
+                    if((self.last_new_node is not None) and (self.active_node != self.root)):
+                        self.last_new_node.suffix_link = self.active_node
+                        self.last_new_node = None
                     self.active_len += 1
                     break
 
@@ -154,10 +155,10 @@ class SuffixTree:
                 _next.start += self.active_len
                 split.children[self._string[_next.start]] = _next
 
-                if self.lastNewNode is not None:
-                    self.lastNewNode.suffixLink = split
+                if self.last_new_node is not None:
+                    self.last_new_node.suffix_link = split
 
-                self.lastNewNode = split
+                self.last_new_node = split
             self.remain_suff_count -= 1
 
             if (self.active_node == self.root) and (self.active_len > 0):  # APCFER2C1
@@ -165,7 +166,7 @@ class SuffixTree:
                 self.active_edge = pos - self.remain_suff_count + 1
 
             elif self.active_node != self.root:  # APCFER2C2
-                self.active_node = self.active_node.suffixLink
+                self.active_node = self.active_node.suffix_link
 
     def build_suffix_tree(self):
         '''
@@ -178,10 +179,3 @@ class SuffixTree:
 
         for i in range(self.size):
             self.extend_suffix_tree(i)
-
-
-if __name__ == "__main__":
-    new_tree = SuffixTree('abcabxabcd$')
-    new_tree.build_suffix_tree()
-    for key in new_tree.root.children['a'].children:
-        print(key, new_tree.root.children['a'].children[key])
