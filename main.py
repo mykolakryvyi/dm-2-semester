@@ -39,18 +39,19 @@ def index():
         word = request.form.get('word')
         text = request.form.get('text')
         pattern = request.form.get('pattern')
-        f = request.files['textfile']
-        print(f)
-        if f:
+
+        try:
+            f = request.files['textfile']
             f.save(secure_filename(f.filename))
+            with open(secure_filename(f.filename), "r") as file:
+                text = file.read()
+
+            os.remove(secure_filename(f.filename))
+        except:
+            pass
 
         if word:
             words, data = search_word(word)
-
-        if os.path.exists(secure_filename(f.filename)):
-            with open(secure_filename(f.filename), "r") as file:
-                text = file.read()
-            os.remove(secure_filename(f.filename))
 
         if text:
             text_positions = full_text_search_engine(text, pattern)
