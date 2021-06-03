@@ -31,7 +31,7 @@ def full_text_search_engine(text: str, pattern: str):
         while stack:
             new_el = stack.pop()
             if new_el.leaf:
-                beginnings_of_pattern.append(new_el.suffixIndex)
+                beginnings_of_pattern.append(new_el.suffix_index)
             for child in new_el.children:
                 stack.append(new_el.children[child])
         res = beginnings_of_pattern
