@@ -1,5 +1,10 @@
 from suffix_tree import SuffixTree
+
+
 def full_text_search_engine(text: str, pattern: str):
+    '''
+    Function, for building a suffix tree on given text and searching for pattern in it.
+    '''
     tree = SuffixTree(text+'$')
     tree.build_suffix_tree()
     current_node = tree.root
@@ -29,14 +34,9 @@ def full_text_search_engine(text: str, pattern: str):
         while stack:
             new_el = stack.pop()
             if new_el.leaf:
-                beginnings_of_pattern.append(new_el.suffixIndex)
+                beginnings_of_pattern.append(new_el.suffix_index + 1)
             for child in new_el.children:
                 stack.append(new_el.children[child])
         res = beginnings_of_pattern
+
     return res
-
-
-if __name__ == "__main__":
-    with open("romeo-and-juliet_TXT_FolgerShakespeare.txt", "r") as file:
-        text = file.read()
-    print(len(full_text_search_engine(text, "ROMEO")))
